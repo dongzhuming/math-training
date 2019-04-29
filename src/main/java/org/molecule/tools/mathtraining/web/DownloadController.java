@@ -30,6 +30,8 @@ public class DownloadController {
     @RequestMapping("/download")
     public String downloadFile(@RequestParam(defaultValue = "40") Integer count, HttpServletResponse response) throws Exception {
         final List<SingleSignEquationQuestion> questions = questionService.generateSingleSignWithBatch(count);
+        // excel输出至临是目录
+        quizConfig.setOutputFile(null);
         final File file = excelService.downloadDocument(questions, quizConfig);
         // 设置强制下载不打开
         response.setContentType("application/force-download");

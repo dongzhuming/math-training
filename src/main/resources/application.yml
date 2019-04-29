@@ -27,7 +27,7 @@ question:
   blank-slot-symbol: ____
 
 quiz:
-  source-template: model.xlsx
+  source-template: static/excel/model-40.xlsx
   output-file: training.xlsx
   questions-per-sheet: 40
   begin-cells: B2,D2
