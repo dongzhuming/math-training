@@ -12,7 +12,10 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -29,8 +32,8 @@ public class ExcelService {
 
     private final QuizConfig quizConfig;
 
-    public void createDocument(List<? extends Question> questions) throws IOException {
-        generate(questions, quizConfig);
+    public File createDocument(List<? extends Question> questions) throws IOException {
+        return generate(questions, quizConfig);
     }
 
     public File downloadDocument(List<? extends Question> questions, QuizConfig _quizConfig) throws IOException {

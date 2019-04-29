@@ -21,22 +21,21 @@ import static java.util.stream.Collectors.toList;
 /**
  * @author Dong Zhuming
  */
-
-public class SingleSignEquationGenerator {
+class SingleSignEquationGenerator {
 
     private Addition addition;
     private Subtraction subtraction;
     private Multiplication multiplication;
     private Division division;
 
-    public SingleSignEquationGenerator(EquationDefinitionConfig config) {
+    SingleSignEquationGenerator(EquationDefinitionConfig config) {
         addition = config.getAddition();
         subtraction = config.getSubtraction();
         multiplication = config.getMultiplication();
         division = config.getDivision();
     }
 
-    public SingleSignEquation generate() {
+    SingleSignEquation generate() {
         BasicType type = chooseTypeByWeight();
         BasicTypeDecorator decorator = new BasicTypeDecorator(type);
         SingleSignEquation equation;
@@ -60,10 +59,10 @@ public class SingleSignEquationGenerator {
     }
 
     private class BasicTypeDecorator {
-        EquationType equationType;
-        Range resultRange;
-        Range firstRange;
-        Range secondRange;
+        private EquationType equationType;
+        private Range resultRange;
+        private Range firstRange;
+        private Range secondRange;
 
         BasicTypeDecorator(BasicType type) {
             if (type instanceof Addition) {
@@ -81,7 +80,7 @@ public class SingleSignEquationGenerator {
                 firstRange = Range.of(((Division) type).getDividendRange());
                 secondRange = Range.of(((Division) type).getDivisorRange());
             } else {
-                throw new RuntimeException("未实现的算式" + type.getClass().getName());
+                throw new UnsupportedOperationException("未实现的算式" + type.getClass().getName());
             }
             resultRange = Range.of(type.getResultRange());
         }
