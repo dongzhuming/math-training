@@ -1,0 +1,35 @@
+
+equation:
+  addition:
+    weight: 1
+    addend-range: 10-99
+    result-range: 20-99
+
+  subtraction:
+    weight: 1
+    minuend-range: 10-99
+    subtrahend-range: 10-99
+    result-range: 10-99
+
+  multiplication:
+    weight: 0
+    multiplier-range: 2-9
+    result-range: 10-99
+
+  division:
+    weight: 0
+    dividend-range: 10-99
+    divisor-range: 2-9
+    result-range: 2-50
+
+question:
+  blank-mode: 0 # 0-空白项在最后，1-空白项随机
+  blank-slot-symbol: ____
+
+quiz:
+  source-template: model.xlsx
+  output-file: training.xlsx
+  questions-per-sheet: 40
+  begin-cells: B2,D2
+  sheet-name-format: Page %d
+  rows-per-column: 20
