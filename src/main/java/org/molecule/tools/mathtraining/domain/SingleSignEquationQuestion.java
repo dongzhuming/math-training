@@ -36,10 +36,19 @@ public class SingleSignEquationQuestion implements Question {
 
     @Override
     public String formulaString() {
-        return (blankSlot == 1 ? blankSlotSymbol : equation.getFirstFigure())
+        return (blankSlot == 1 ? blankSlotSymbol : equation.getFirstItem())
                 + equation.getType().getSign()
-                + (blankSlot == 2 ? blankSlotSymbol : equation.getSecondFigure())
+                + (blankSlot == 2 ? blankSlotSymbol : equation.getSecondItem())
                 + '='
-                + (blankSlot == 3 ? blankSlotSymbol : equation.getResult());
+                + (blankSlot == 3 ? blankSlotSymbol : equation.getResultItem());
     }
+
+    @Override
+    public QuestionVO toViewObject() {
+        return QuestionVO.builder()
+                .title(this.formulaString())
+                .answer(equation.getItem(blankSlot))
+                .build();
+    }
+
 }

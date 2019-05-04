@@ -10,46 +10,54 @@ import lombok.Getter;
 @Getter
 public class SingleSignEquation implements Equation {
 
-    private Integer firstFigure;
-    private Integer secondFigure;
+    private Integer firstItem;
+    private Integer secondItem;
     private EquationType type;
-    private Integer result;
+    private Integer resultItem;
 
     public SingleSignEquation(Integer figure1, Integer figure2, EquationType type) {
-        this.firstFigure = figure1;
-        this.secondFigure = figure2;
+        this.firstItem = figure1;
+        this.secondItem = figure2;
         this.type = type;
     }
 
     @Override
-    public synchronized Integer getResult() {
-        if(result != null) {
-            return result;
+    public synchronized Integer getResultItem() {
+        if(resultItem != null) {
+            return resultItem;
         }
         switch (type) {
             case ADDITION:
-                result = firstFigure + secondFigure;
+                resultItem = firstItem + secondItem;
                 break;
             case SUBTRACTION:
-                result =  firstFigure - secondFigure;
+                resultItem =  firstItem - secondItem;
                 break;
             case MULTIPLICATION:
-                result =  firstFigure * secondFigure;
+                resultItem =  firstItem * secondItem;
                 break;
             case DIVISION:
-                result =  firstFigure / secondFigure;
+                resultItem =  firstItem / secondItem;
                 break;
             default:
                 return null;
         }
-        return result;
+        return resultItem;
     }
-    public void print() {
-        System.out.println(this.toString());
+
+    @Override
+    public String getItem(int index) {
+        if(index == 1) {
+            return String.valueOf(this.firstItem);
+        } else if (index == 2) {
+            return String.valueOf(this.secondItem);
+        } else {
+            return String.valueOf(this.resultItem);
+        }
     }
 
     @Override
     public String toString() {
-        return firstFigure + type.getSign() + secondFigure + '=' + getResult();
+        return firstItem + type.getSign() + secondItem + '=' + this.getResultItem();
     }
 }

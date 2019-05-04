@@ -3,11 +3,17 @@ package org.molecule.tools.mathtraining.domain;
 /**
  * @author Dong Zhuming
  */
-@FunctionalInterface
 public interface Equation {
     /**
-     * 获取计算结果
+     *
+     * @return 计算结果
      */
-    Integer getResult();
+    Integer getResultItem();
+
+    /**
+     * @param index 位置
+     * @return 获取指定位置的运算项值
+     */
+    String getItem(int index);
 
 }

@@ -28,6 +28,7 @@ public class ExcelServiceTest {
         final List<SingleSignEquationQuestion> questions = questionService.generateSingleSignWithBatch(1000);
         File file = excelService.createDocument(questions);
         assertTrue(file.exists());
+        file.deleteOnExit();
     }
 
 }

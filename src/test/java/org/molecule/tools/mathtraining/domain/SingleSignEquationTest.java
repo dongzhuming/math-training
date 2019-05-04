@@ -15,7 +15,7 @@ public class SingleSignEquationTest {
     @Test
     public void testAddition() {
         final SingleSignEquation equation = new SingleSignEquation(10, 10, EquationType.ADDITION);
-        assertEquals(20, (int) equation.getResult());
+        assertEquals(20, (int) equation.getResultItem());
     }
 
     @Test

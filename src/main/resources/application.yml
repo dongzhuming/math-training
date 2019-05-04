@@ -1,3 +1,5 @@
+server:
+  port: 18000
 
 equation:
   addition:
@@ -23,7 +25,7 @@ equation:
     result-range: 2-50
 
 question:
-  blank-mode: 0 # 0-¿Õ°×ÏîÔÚ×îºó£¬1-¿Õ°×ÏîËæ»ú
+  blank-mode: 0 # 0-ç©ºç™½é¡¹åœ¨æœ€åï¼Œ1-ç©ºç™½é¡¹éšæœº
   blank-slot-symbol: ____
 
 quiz:

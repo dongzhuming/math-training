@@ -43,7 +43,7 @@ class SingleSignEquationGenerator {
             Integer figure1 = randomInRange(decorator.firstRange);
             Integer figure2 = randomInRange(decorator.secondRange);
             equation = new SingleSignEquation(figure1, figure2, decorator.getEquationType());
-        } while (!decorator.resultRange.includes(equation.getResult()));
+        } while (!decorator.resultRange.includes(equation.getResultItem()));
         return equation;
     }
 

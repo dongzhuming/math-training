@@ -12,7 +12,7 @@
     <artifactId>math-training</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>math-training</name>
-    <description>Demo project for Spring Boot</description>
+    <description>算术练习器</description>
 
     <properties>
         <java.version>11</java.version>
@@ -69,5 +69,20 @@
             </plugin>
         </plugins>
     </build>
+    <repositories>
+        <!-- 使用阿里Nexus仓库 -->
+        <repository>
+            <id>maven-ali</id>
+            <url>http://maven.aliyun.com/nexus/content/groups/public//</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+                <checksumPolicy>fail</checksumPolicy>
+            </snapshots>
+        </repository>
+    </repositories>
 
 </project>
