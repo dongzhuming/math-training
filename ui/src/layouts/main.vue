@@ -63,9 +63,9 @@
 </template>
 
 <script>
-  import {openURL} from 'quasar'
+import { openURL } from 'quasar'
 
-  export default {
+export default {
   name: 'MyLayout',
   data () {
     return {
