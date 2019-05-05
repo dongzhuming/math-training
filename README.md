@@ -16,4 +16,5 @@ Spring boot 项目，启动后访问http://localhost:8080/download?count=?
 sudo docker build -t math-training:1.0 https://github.com/dongzhuming/math-training.git
 sudo docker run -d -p 18000:18000 --name math-training math-training:1.0
 
-docker build -t math-training-ui https://github.com/dongzhuming/math-training.git#master:ui
+sudo docker build -t math-training-ui https://github.com/dongzhuming/math-training.git#master:ui
+sudo docker run -d -p 18001:18001 --name math-training-ui math-training-ui
