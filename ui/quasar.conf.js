@@ -39,15 +39,16 @@ module.exports = function (ctx) {
         // proxy all requests starting with /api to jsonplaceholder
         '/api': {
           target: 'http://localhost:18000',
-          changeOrigin: true,
-          pathRewrite: {
-            '^/api': ''
-          }
+          changeOrigin: true
+          // ,
+          // pathRewrite: {
+          //   '^/api': ''
+          // }
         }
       },
       // https: true,
       port: 18001,
-      open: true // opens browser window automatically
+      open: false // opens browser window automatically
     },
     // framework: 'all' --- includes everything; for dev only!
     framework: {

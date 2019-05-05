@@ -23,7 +23,7 @@ equation:
     dividend-range: 10-99
     divisor-range: 2-9
     result-range: 2-50
-
+cd ui
 question:
   blank-mode: 0 # 0-空白项在最后，1-空白项随机
   blank-slot-symbol: ____

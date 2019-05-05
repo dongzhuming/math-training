@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
  * @author Dong Zhuming
  */
 @RestController
-@RequestMapping("/exercise")
+@RequestMapping("/api/exercise")
 @RequiredArgsConstructor
 public class ExerciseController {
 
