@@ -12,7 +12,8 @@
         </q-toolbar>
 
         <div class="layout-padding">
-          <q-input type="number" v-model="answer" :prefix="inputPrefix" :suffix="inputSuffix"></q-input>
+          <q-input type="number" v-model="answer" :prefix="inputPrefix" :suffix="inputSuffix"
+                   @keyup.enter="checkAnswer()"></q-input>
         </div>
 
         <q-toolbar slot="footer">
@@ -22,7 +23,11 @@
     </q-modal>
   </q-page>
 </template>
-
+<style>
+  .q-if {
+    font-size: 2rem
+  }
+</style>
 <script>
 import axios from 'axios'
 export default {
