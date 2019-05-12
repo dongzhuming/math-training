@@ -53,6 +53,8 @@ module.exports = function (ctx) {
     // framework: 'all' --- includes everything; for dev only!
     framework: {
       components: [
+        'QInput',
+        'QModal',
         'QLayout',
         'QLayoutHeader',
         'QLayoutDrawer',
@@ -69,7 +71,8 @@ module.exports = function (ctx) {
         'QItemSide'
       ],
       directives: [
-        'Ripple'
+        'Ripple',
+        'CloseOverlay'
       ],
       // Quasar plugins
       plugins: [

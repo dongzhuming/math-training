@@ -1,0 +1,143 @@
+<template>
+  <q-page class="flex flex-center">
+    <!--<q-btn to="/settings">重新设置</q-btn>-->
+    <q-btn @click.native="popupModal()">准备好了，开始吧</q-btn>
+    <q-modal v-model="maximizedModal" maximized>
+      <q-modal-layout>
+        <q-toolbar slot="header">
+          <q-btn flat round dense v-close-overlay icon="keyboard_arrow_left"/>
+          <q-toolbar-title>
+            剩余<label v-text="remain"/>道题目
+          </q-toolbar-title>
+        </q-toolbar>
+
+        <q-toolbar slot="footer">
+          <q-toolbar-title>
+            耗时
+          </q-toolbar-title>
+        </q-toolbar>
+
+        <div class="layout-padding">
+          <!--<q-input v-model="answer" float-label="this.question"></q-input>-->
+          <div class="row no-wrap">
+            <component :is="item.type" v-for="item in components" v-bind:key="item.name" v-bind="item.propsData">
+              {{item.text}}
+            </component>
+          </div>
+          <q-btn
+            color="primary"
+            label="确定"
+          />
+        </div>
+      </q-modal-layout>
+    </q-modal>
+  </q-page>
+</template>
+
+<script>
+import axios from 'axios'
+export default {
+  name: 'PageExercise',
+  data () {
+    return {
+      maximizedModal: false,
+      questions: [],
+      answers: [],
+      answer: '',
+      current: 0,
+      remain: 10,
+      components: [
+        {
+          type: 'span',
+          name: 'span',
+          text: '1+1=',
+          propsData: {}
+        },
+        {
+          type: 'input',
+          name: 'input',
+          text: '',
+          propsData: {}
+        }
+      ]
+    }
+  },
+  methods: {
+    checkAnswer (val) {
+      if (val === this.answers[this.current]) {
+        // 答案正确，减1道
+        this.remain--
+        this.current++
+        if (this.remain === 0) {
+          this.$q.dialog({
+            title: '恭喜',
+            message: `总共完成${this.current}道题目`
+          })
+        } else {
+          // nextQuestion
+        }
+      } else {
+        // 答案错误，加10道
+        this.$q.notify(`正确答案是: "${val}"`)
+        axios.get(`/api/exercise?count=10`).then(response => {
+          response.data.forEach(question => {
+            this.questions.push(question)
+          })
+          this.remain += response.data.length
+          this.current++
+          this.popupQuestion()
+        })
+      }
+    },
+    startExercise () {
+      axios.get(`/api/exercise?count=20`).then(response => {
+        this.questions = []
+        response.data.forEach(question => {
+          this.questions.push(question)
+        })
+        this.remain = response.data.length
+        this.current = 0
+        this.popupQuestion()
+      })
+    },
+    popupQuestion () {
+      this.$q.dialog({
+        title: `还有${this.remain}道题`,
+        message: this.questions[this.current].title,
+        prompt: {
+          model: '',
+          type: 'number'
+        }
+      }).then(answer => {
+        this.checkAnswer(answer + '')
+      }).catch(() => {})
+    },
+    displayQuestion () {
+      debugger
+      let _components = []
+      console.log(this.questions[this.current].items)
+      this.questions[this.current].items.forEach(function (x, index) {
+        if (x === '____') {
+          _components.push({ type: 'input', name: 'input', text: '', propsData: {} })
+        } else {
+          _components.push({ type: 'span', name: 'span', text: x, propsData: {} })
+        }
+      })
+      this.components = _components
+    },
+    popupModal () {
+      axios.get(`/api/exercise?count=20`).then(response => {
+        this.questions = []
+        response.data.forEach(question => {
+          this.questions.push(question)
+          this.answers.push(question['answer'])
+        })
+        this.remain = response.data.length
+        this.current = 0
+        this.displayQuestion()
+        this.maximizedModal = true
+      })
+    }
+  }
+}
+</script>

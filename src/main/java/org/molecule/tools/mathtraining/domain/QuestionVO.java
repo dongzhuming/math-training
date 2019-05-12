@@ -13,5 +13,6 @@ public class QuestionVO {
 
     private String title;
     private String answer;
+    private String[] items;
 
 }

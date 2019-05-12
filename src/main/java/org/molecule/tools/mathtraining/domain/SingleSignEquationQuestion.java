@@ -36,11 +36,7 @@ public class SingleSignEquationQuestion implements Question {
 
     @Override
     public String formulaString() {
-        return (blankSlot == 1 ? blankSlotSymbol : equation.getFirstItem())
-                + equation.getType().getSign()
-                + (blankSlot == 2 ? blankSlotSymbol : equation.getSecondItem())
-                + '='
-                + (blankSlot == 3 ? blankSlotSymbol : equation.getResultItem());
+        return String.join("", getItemList());
     }
 
     @Override
@@ -48,7 +44,16 @@ public class SingleSignEquationQuestion implements Question {
         return QuestionVO.builder()
                 .title(this.formulaString())
                 .answer(equation.getItem(blankSlot))
+                .items(getItemList())
                 .build();
     }
 
+    private String[] getItemList() {
+        return new String[]{
+                blankSlot == 1 ? blankSlotSymbol : equation.getFirstItem().toString(),
+                equation.getType().getSign(),
+                blankSlot == 2 ? blankSlotSymbol : equation.getSecondItem().toString(),
+                "=",
+                blankSlot == 3 ? blankSlotSymbol : equation.getResultItem().toString()};
+    }
 }
