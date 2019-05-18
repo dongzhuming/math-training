@@ -119,7 +119,7 @@ export default {
     accomplish () {
       this.$q.dialog({
         title: '全部完成',
-        message: '总共完成{}道题目，其中有道错题',
+        message: `总共完成${this.current}道题目，其中有道错题`,
         ok: '知道了'
       }).then(() => {
         this.exerciseModal = false
