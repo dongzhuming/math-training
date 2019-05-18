@@ -69,6 +69,7 @@ export default {
         axios.get(`/api/exercise?count=${this.penaltyCount}`).then(response => {
           response.data.forEach(question => {
             this.questions.push(question)
+            this.answers.push(question['answer'])
           })
           this.remain += response.data.length
           this.current++
