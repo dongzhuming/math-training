@@ -24,10 +24,11 @@
   </q-page>
 </template>
 <style lang="stylus">
-  .q-input
-    height 3em
-    font-size 3em
-
+.q-input
+  font-size 2em
+  height 2em
+input[placeholder]
+  text-overflow ellipsis
 </style>
 <script>
 import axios from 'axios'
@@ -50,7 +51,7 @@ export default {
   methods: {
     checkAnswer () {
       if (this.answer === '') {
-        this.$q.notify('请输出答案')
+        this.$q.notify('请填写答案')
         return
       }
       if (this.answer === parseInt(this.answers[this.current])) {
