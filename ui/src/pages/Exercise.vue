@@ -1,24 +1,23 @@
 <template>
   <q-page class="flex flex-center">
-    <!--<q-btn to="/settings">重新设置</q-btn>-->
     <q-btn @click.native="popupModal()">准备好了，开始吧</q-btn>
-    <q-modal v-model="maximizedModal" maximized>
+    <q-modal v-model="maximizedModal" :content-css="{minWidth: '30vw', minHeight: '30vh'}" no-esc-dismiss no-backdrop-dismiss>
       <q-modal-layout>
         <q-toolbar slot="header">
           <q-btn flat round dense v-close-overlay icon="keyboard_arrow_left"/>
           <q-toolbar-title>
-            剩余<label v-text="remain"/>道题目
+            剩余{{this.remain}}道题目
+            <span slot="subtitle">
+              已完成{{this.current}}道题目
+            </span>
           </q-toolbar-title>
+          <q-btn flat @click.native="checkAnswer()">确定</q-btn>
         </q-toolbar>
 
         <div class="layout-padding">
           <q-input type="number" v-model="answer" :prefix="inputPrefix" :suffix="inputSuffix"
                    @keyup.enter="checkAnswer()"></q-input>
         </div>
-
-        <q-toolbar slot="footer">
-          <q-btn color="primary" @click.native="checkAnswer()">确定</q-btn>
-        </q-toolbar>
       </q-modal-layout>
     </q-modal>
   </q-page>
@@ -46,6 +45,10 @@ export default {
   },
   methods: {
     checkAnswer () {
+      if (this.answer === '') {
+        this.$q.notify('请输出答案')
+        return
+      }
       if (this.answer === parseInt(this.answers[this.current])) {
         // 答案正确，减1道
         this.remain--
@@ -57,7 +60,7 @@ export default {
         }
       } else {
         // 答案错误，加10道
-        this.$q.notify(`正确答案是: "${this.answers[this.current]}"`)
+        this.$q.notify(`${this.questions[this.current].title} 的正确答案是: "${this.answers[this.current]}"`)
         axios.get(`/api/exercise?count=10`).then(response => {
           response.data.forEach(question => {
             this.questions.push(question)
