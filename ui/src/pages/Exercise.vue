@@ -4,16 +4,15 @@
       <p class="caption">
         <span class="chip-container">
             <q-chip square color="primary">
-              我要做 {{ initialCount }}道
+              一共做 {{ initialCount }} 道
             </q-chip>
           </span>
       </p>
       <q-slider v-model="initialCount" :min="5" :max="50" :step="5" color="blue" />
-
       <p class="caption">
         <span class="chip-container">
-          <q-chip square color="primary">
-            错一道加 {{ penaltyCount }}道
+          <q-chip square color="secondary">
+            错一道加 {{ penaltyCount }} 道
           </q-chip>
         </span>
       </p>
@@ -75,7 +74,8 @@ export default {
       inputPrefix: '',
       inputSuffix: '',
       penaltyCount: 5,
-      initialCount: 10
+      initialCount: 10,
+      errorCount: 0
     }
   },
   methods: {
@@ -94,15 +94,17 @@ export default {
           this.displayQuestion()
         }
       } else {
-        // 答案错误，加10道
+        // 答案错误
         this.$q.notify(`${this.questions[this.current].title} 的正确答案是: "${this.answers[this.current]}"`)
-        axios.get(`/api/exercise?count=${this.penaltyCount}`).then(response => {
+        axios.get(`/api/exercise?count=${this.penaltyCount + 1}`).then(response => {
           response.data.forEach(question => {
             this.questions.push(question)
             this.answers.push(question['answer'])
+            console.log(`增加一道${question['title']}, 答案${question['answer']}`)
           })
-          this.remain += response.data.length
+          this.remain += this.penaltyCount
           this.current++
+          this.errorCount++
           this.displayQuestion()
         })
       }
@@ -126,6 +128,7 @@ export default {
     popupModal () {
       axios.get(`/api/exercise?count=${this.initialCount}`).then(response => {
         this.questions = []
+        this.answers = []
         response.data.forEach(question => {
           this.questions.push(question)
           this.answers.push(question['answer'])
@@ -141,8 +144,8 @@ export default {
         title: '确定退出吗？',
         message: '您还没有完成任务哦',
         ok: '仍然退出',
-        color: 'primary',
-        cancel: '继续做完'
+        cancel: '继续做完',
+        color: 'primary'
       }).then(() => {
         this.exerciseModal = false
       }).catch(() => {
@@ -151,7 +154,7 @@ export default {
     accomplish () {
       this.$q.dialog({
         title: '全部完成',
-        message: `总共完成${this.current}道题目，其中有道错题`,
+        message: `总共完成${this.current}道题目，其中有${this.errorCount}道错题`,
         ok: '知道了'
       }).then(() => {
         this.exerciseModal = false
