@@ -11,6 +11,7 @@ import lombok.Getter;
 @Getter
 public class QuestionVO {
 
+    private String code;
     private String title;
     private String answer;
     private String[] items;

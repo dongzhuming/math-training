@@ -96,17 +96,18 @@ export default {
       } else {
         // 答案错误
         this.$q.notify(`${this.questions[this.current].title} 的正确答案是: "${this.answers[this.current]}"`)
-        axios.get(`/api/exercise?count=${this.penaltyCount + 1}`).then(response => {
-          response.data.forEach(question => {
-            this.questions.push(question)
-            this.answers.push(question['answer'])
-            console.log(`增加一道${question['title']}, 答案${question['answer']}`)
+        axios.get(`/api/exercise?count=${this.penaltyCount + 1}&code=${this.questions[this.current].code}`)
+          .then(response => {
+            response.data.forEach(question => {
+              this.questions.push(question)
+              this.answers.push(question['answer'])
+              console.log(`增加一道${question['title']}, 答案${question['answer']}`)
+            })
+            this.remain += this.penaltyCount
+            this.current++
+            this.errorCount++
+            this.displayQuestion()
           })
-          this.remain += this.penaltyCount
-          this.current++
-          this.errorCount++
-          this.displayQuestion()
-        })
       }
     },
     displayQuestion () {

@@ -4,7 +4,9 @@ import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 import org.molecule.tools.mathtraining.config.Constants;
 import org.molecule.tools.mathtraining.config.QuestionConfig;
+import org.springframework.util.Base64Utils;
 
+import java.util.Base64;
 import java.util.Random;
 
 /**
@@ -45,7 +47,13 @@ public class SingleSignEquationQuestion implements Question {
                 .title(this.formulaString())
                 .answer(equation.getItem(blankSlot))
                 .items(getItemList())
+                .code(this.encode())
                 .build();
+    }
+
+    @Override
+    public String encode() {
+        return Base64Utils.encodeToString((this.equation.toString() + blankSlot).getBytes());
     }
 
     private String[] getItemList() {
@@ -56,4 +64,5 @@ public class SingleSignEquationQuestion implements Question {
                 "=",
                 blankSlot == 3 ? blankSlotSymbol : equation.getResultItem().toString()};
     }
+
 }

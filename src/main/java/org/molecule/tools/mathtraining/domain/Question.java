@@ -10,4 +10,6 @@ public interface Question {
     String formulaString();
 
     QuestionVO toViewObject();
+
+    String encode();
 }
