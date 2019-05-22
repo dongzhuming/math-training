@@ -16,6 +16,8 @@
 
     <properties>
         <java.version>11</java.version>
+        <maven.compile.source>${java.version}</maven.compile.source>
+        <maven.compile.target>${java.version}</maven.compile.target>
     </properties>
 
     <dependencies>
