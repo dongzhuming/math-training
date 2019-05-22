@@ -10,6 +10,7 @@
 </style>
 
 <script>
+
 export default {
   name: 'PageSettings'
 }

@@ -61,6 +61,8 @@ input[type="number"]
 </style>
 <script>
 import axios from 'axios'
+import { date } from 'quasar'
+
 export default {
   name: 'PageExercise',
   data () {
@@ -75,7 +77,9 @@ export default {
       inputSuffix: '',
       penaltyCount: 5,
       initialCount: 10,
-      errorCount: 0
+      errorCount: 0,
+      startTimestamp: 0,
+      endTimestamp: 0
     }
   },
   methods: {
@@ -89,6 +93,7 @@ export default {
         this.remain--
         this.current++
         if (this.remain === 0) {
+          this.endTimestamp = new Date()
           this.accomplish()
         } else {
           this.displayQuestion()
@@ -138,6 +143,7 @@ export default {
         this.current = 0
         this.displayQuestion()
         this.exerciseModal = true
+        this.startTimestamp = new Date()
       })
     },
     exitExercise () {
@@ -153,13 +159,24 @@ export default {
       })
     },
     accomplish () {
+      this.submitResult()
       this.$q.dialog({
         title: '全部完成',
-        message: `总共完成${this.current}道题目，其中有${this.errorCount}道错题`,
+        message: `总共完成${this.current}道题目，其中有${this.errorCount}道错题，耗时${this.elapsedTime()}`,
         ok: '知道了'
       }).then(() => {
         this.exerciseModal = false
       })
+    },
+    elapsedTime () {
+      let elapsedMinutes = date.getDateDiff(this.endTimestamp, this.startTimestamp, 'minutes')
+      let elapsedSeconds = date.getDateDiff(this.endTimestamp, this.startTimestamp, 'seconds') - elapsedMinutes * 60
+      let ret = elapsedMinutes > 0 ? elapsedMinutes + '分' : ''
+      ret += elapsedSeconds > 0 ? elapsedSeconds + '秒' : ''
+      return ret
+    },
+    submitResult () {
+
     }
   }
 }
