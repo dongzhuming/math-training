@@ -31,7 +31,7 @@ public class QuestionService {
         }
         SingleSignEquationGenerator generator = new SingleSignEquationGenerator(equationDefinitionConfig);
         return IntStream.rangeClosed(1, count).boxed()
-                .map(i -> generator.generate())
+                .map(i-> generator.generate())
                 .map(e -> new SingleSignEquationQuestion(generator.generate(), questionConfig))
                 .collect(Collectors.toList());
     }
