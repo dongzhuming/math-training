@@ -17,7 +17,7 @@
         </span>
       </p>
       <q-slider v-model="penaltyCount" :min="1" :max="10" :step="1" color="green" />
-      <q-btn @click.native="popupModal()">准备好了，开始吧</q-btn>
+      <q-btn @click.native="startExercise()">准备好了，开始吧</q-btn>
     </div>
     <q-modal v-model="exerciseModal" :content-css="{minWidth: '30vw', minHeight: '30vh'}"
              no-esc-dismiss no-backdrop-dismiss>
@@ -138,7 +138,7 @@ export default {
       this.inputPrefix = prefix
       this.inputSuffix = suffix
     },
-    popupModal () {
+    startExercise () {
       axios.post(
         `/api/exercise/start`,
         qs.stringify({ count: this.initialCount }))
@@ -165,8 +165,9 @@ export default {
         cancel: '继续做完',
         color: 'primary'
       }).then(() => {
+        axios.post(`/api/exercise/finish`,
+          qs.stringify({ totalCount: this.current, exerciseId: this.exerciseId }))
         this.exerciseModal = false
-      }).catch(() => {
       })
     },
     accomplish () {
@@ -176,6 +177,8 @@ export default {
         message: `总共完成${this.current}道题目，其中有${this.errorCount}道错题，耗时${this.elapsedTime()}`,
         ok: '知道了'
       }).then(() => {
+        axios.post(`/api/exercise/finish`,
+          qs.stringify({ totalCount: this.current, exerciseId: this.exerciseId }))
         this.exerciseModal = false
       })
     },

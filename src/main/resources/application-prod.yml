@@ -7,7 +7,7 @@ spring:
     active: prod
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://192.168.1.100:3306/training?characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://mysql-server:3306/training?characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
     username: math
     password: math
   jpa:
@@ -15,7 +15,7 @@ spring:
       ddl-auto: none
       naming:
         physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
-    show-sql: true
+    show-sql: false
 
 
 equation:

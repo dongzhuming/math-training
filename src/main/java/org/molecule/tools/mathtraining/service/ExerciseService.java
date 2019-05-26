@@ -26,6 +26,8 @@ public class ExerciseService {
         final ExercisePO exercisePO = new ExercisePO();
         exercisePO.setStartTime(LocalDateTime.now());
         exercisePO.setInitialCount(initialCount);
+        exercisePO.setTotalCount(0);
+        exercisePO.setWrongCount(0);
         exerciseRepository.save(exercisePO);
         final List<QuestionVO> questions = createQuestions(initialCount);
         questions.forEach(question -> questionRepository.save(QuestionPO.create(question)));
