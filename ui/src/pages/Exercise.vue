@@ -62,11 +62,13 @@ input[type="number"]
 <script>
 import axios from 'axios'
 import { date } from 'quasar'
+import qs from 'querystring'
 
 export default {
   name: 'PageExercise',
   data () {
     return {
+      exerciseId: null,
       exerciseModal: false,
       questions: [],
       answers: [],
@@ -100,8 +102,13 @@ export default {
         }
       } else {
         // 答案错误
+        let postData = {
+          exerciseId: this.exerciseId,
+          questionCode: this.questions[this.current].code,
+          penaltyCount: this.penaltyCount + 1
+        }
         this.$q.notify(`${this.questions[this.current].title} 的正确答案是: "${this.answers[this.current]}"`)
-        axios.get(`/api/exercise?count=${this.penaltyCount + 1}&code=${this.questions[this.current].code}`)
+        axios.post(`/api/exercise/wrong`, qs.stringify(postData))
           .then(response => {
             response.data.forEach(question => {
               this.questions.push(question)
@@ -132,19 +139,23 @@ export default {
       this.inputSuffix = suffix
     },
     popupModal () {
-      axios.get(`/api/exercise?count=${this.initialCount}`).then(response => {
-        this.questions = []
-        this.answers = []
-        response.data.forEach(question => {
-          this.questions.push(question)
-          this.answers.push(question['answer'])
+      axios.post(
+        `/api/exercise/start`,
+        qs.stringify({ count: this.initialCount }))
+        .then(response => {
+          this.questions = []
+          this.answers = []
+          this.exerciseId = response.data.id
+          response.data.questions.forEach(question => {
+            this.questions.push(question)
+            this.answers.push(question['answer'])
+          })
+          this.remain = response.data.questions.length
+          this.current = 0
+          this.displayQuestion()
+          this.exerciseModal = true
+          this.startTimestamp = new Date()
         })
-        this.remain = response.data.length
-        this.current = 0
-        this.displayQuestion()
-        this.exerciseModal = true
-        this.startTimestamp = new Date()
-      })
     },
     exitExercise () {
       this.$q.dialog({

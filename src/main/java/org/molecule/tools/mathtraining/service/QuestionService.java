@@ -3,7 +3,6 @@ package org.molecule.tools.mathtraining.service;
 import lombok.RequiredArgsConstructor;
 import org.molecule.tools.mathtraining.config.EquationDefinitionConfig;
 import org.molecule.tools.mathtraining.config.QuestionConfig;
-import org.molecule.tools.mathtraining.domain.SingleSignEquation;
 import org.molecule.tools.mathtraining.domain.SingleSignEquationQuestion;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +16,7 @@ import java.util.stream.IntStream;
 @Service
 @RequiredArgsConstructor
 public class QuestionService {
+
     private final QuestionConfig questionConfig;
     private final EquationDefinitionConfig equationDefinitionConfig;
 
