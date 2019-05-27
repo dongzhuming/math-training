@@ -44,7 +44,7 @@ equation:
     withExcept: true
 
 question:
-  blank-mode: 0 # 0-空白项在最后，1-空白项随机
+  blank-mode: 1 # 0-空白项在最后，1-空白项随机
   blank-slot-symbol: ____
 
 quiz:

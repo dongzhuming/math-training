@@ -2,11 +2,9 @@ package org.molecule.tools.mathtraining.domain;
 
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 /**
@@ -19,7 +17,8 @@ public class QuestionPO {
     private static final String ITEM_DELIMITER = "|";
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "custom-id")
+    @GenericGenerator(name = "custom-id", strategy = "org.molecule.tools.mathtraining.util.SnowFlakeIdGenerator")
     private Long id;
 
     private String code;

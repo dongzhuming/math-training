@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -30,7 +31,7 @@ public class ExerciseService {
         exercisePO.setWrongCount(0);
         exerciseRepository.save(exercisePO);
         final List<QuestionVO> questions = createQuestions(initialCount);
-        questions.forEach(question -> questionRepository.save(QuestionPO.create(question)));
+        saveQuestionsIfNotExist(questions);
         return Map.of("id", exercisePO.getId(), "questions", questions);
     }
 
@@ -51,8 +52,26 @@ public class ExerciseService {
                 });
 
         final List<QuestionVO> questions = createQuestions(penaltyCount);
-        questions.forEach(question -> questionRepository.save(QuestionPO.create(question)));
+        saveQuestionsIfNotExist(questions);
         return questions;
+    }
+
+    /**
+     * //将新增的题目写入数据库
+     * @param questions
+     */
+    private void saveQuestionsIfNotExist(List<QuestionVO> questions) {
+        Set<String> codes = questions.stream().map(QuestionVO:: getCode).collect(Collectors.toSet());
+
+        List<String> existsQuestionCodes = questionRepository
+                .findAllByCodeIn(codes)
+                .map(QuestionPO::getCode)
+                .collect(Collectors.toList());
+
+        questions.stream()
+                .filter(question -> !existsQuestionCodes.contains(question.getCode()))
+                .collect(Collectors.toSet())
+                .forEach(question -> questionRepository.save(QuestionPO.create(question)));
     }
 
     private List<QuestionVO> createQuestions(Integer count) {
