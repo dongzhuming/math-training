@@ -1,5 +1,7 @@
 package org.molecule.tools.mathtraining.domain;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
@@ -19,6 +21,7 @@ public class QuestionPO {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "custom-id")
     @GenericGenerator(name = "custom-id", strategy = "org.molecule.tools.mathtraining.util.SnowFlakeIdGenerator")
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
     private String code;
