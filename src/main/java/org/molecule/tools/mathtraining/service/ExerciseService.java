@@ -32,7 +32,7 @@ public class ExerciseService {
         exerciseRepository.save(exercisePO);
         final List<QuestionVO> questions = createQuestions(initialCount);
         saveQuestionsIfNotExist(questions);
-        return Map.of("id", exercisePO.getId(), "questions", questions);
+        return Map.of("id", exercisePO.getId().toString(), "questions", questions);
     }
 
     public void finish(Long exerciseId, Integer totalCount) {
