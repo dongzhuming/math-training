@@ -152,6 +152,7 @@ export default {
           })
           this.remain = response.data.questions.length
           this.current = 0
+          this.errorCount = 0
           this.displayQuestion()
           this.exerciseModal = true
           this.startTimestamp = new Date()
@@ -188,9 +189,6 @@ export default {
       let ret = elapsedMinutes > 0 ? elapsedMinutes + '分' : ''
       ret += elapsedSeconds > 0 ? elapsedSeconds + '秒' : ''
       return ret
-    },
-    submitResult () {
-
     }
   }
 }
