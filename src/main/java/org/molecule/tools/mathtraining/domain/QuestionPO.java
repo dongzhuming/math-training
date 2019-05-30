@@ -1,5 +1,6 @@
 package org.molecule.tools.mathtraining.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Data;
@@ -7,7 +8,10 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Dong Zhuming
@@ -15,12 +19,12 @@ import java.time.LocalDateTime;
 @Entity
 @Data
 @Table(name = "question")
-public class QuestionPO {
+public class QuestionPO implements Serializable {
     private static final String ITEM_DELIMITER = "|";
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "custom-id")
-    @GenericGenerator(name = "custom-id", strategy = "org.molecule.tools.mathtraining.util.SnowFlakeIdGenerator")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "id")
+    @GenericGenerator(name = "id", strategy = "org.molecule.tools.mathtraining.util.SnowFlakeIdGenerator")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
@@ -34,6 +38,10 @@ public class QuestionPO {
 
     @CreationTimestamp
     private LocalDateTime createdDate;
+
+    @OneToMany(targetEntity = WrongnessPO.class, mappedBy = "question", cascade = CascadeType.ALL)
+    private List<WrongnessPO> wrongness = new ArrayList<>();
+
 
     public static QuestionPO create(QuestionVO vo) {
         QuestionPO po = new QuestionPO();
@@ -53,7 +61,10 @@ public class QuestionPO {
                 .build();
     }
 
-    public void addWrong() {
-        //do nothing
+    public void addWrong(String name) {
+        final WrongnessPO wrongnessPO = new WrongnessPO();
+        wrongnessPO.setName(name);
+        wrongnessPO.setQuestion(this);
+        wrongness.add(wrongnessPO);
     }
 }

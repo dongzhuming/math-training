@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 /**
  * @author Dong Zhuming
  */
@@ -22,7 +24,8 @@ public class ExerciseController {
 
     @PostMapping("/start")
     public ResponseEntity startExercise(@RequestParam int count) {
-        return ResponseEntity.ok(exerciseService.start(count));
+        final Map start = exerciseService.start(count);
+        return ResponseEntity.ok(start);
     }
 
     @PostMapping("/finish")

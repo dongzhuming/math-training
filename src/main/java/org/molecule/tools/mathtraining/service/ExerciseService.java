@@ -47,12 +47,13 @@ public class ExerciseService {
         exercisePO.addWrong();
         questionRepository.findFirstByCode(questionCode)
                 .ifPresent(question -> {
-                    question.addWrong();
+                    question.addWrong(null);
                     questionRepository.save(question);
                 });
 
         final List<QuestionVO> questions = createQuestions(penaltyCount);
         saveQuestionsIfNotExist(questions);
+        final WrongnessPO wrongnessPO = new WrongnessPO();
         return questions;
     }
 

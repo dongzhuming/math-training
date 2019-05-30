@@ -172,7 +172,6 @@ export default {
       })
     },
     accomplish () {
-      this.submitResult()
       this.$q.dialog({
         title: '全部完成',
         message: `总共完成${this.current}道题目，其中有${this.errorCount}道错题，耗时${this.elapsedTime()}`,
