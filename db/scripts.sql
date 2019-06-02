@@ -36,3 +36,11 @@ create table wrongness
   created_date datetime     not null,
 	INDEX (code DESC)
 ) engine = INNODB;
+
+create table configuration
+(
+  id           bigint       not null primary key,
+  properties   json         not null,
+  name         varchar(32)  null,
+  created_date  datetime    not null
+) engine = INNODB;

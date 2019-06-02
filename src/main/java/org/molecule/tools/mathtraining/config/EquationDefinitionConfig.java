@@ -1,5 +1,6 @@
 package org.molecule.tools.mathtraining.config;
 
+import com.alibaba.fastjson.annotation.JSONType;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -12,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "equation")
 @Getter
 @Setter
+@JSONType(includes = {"blankMode", "addition", "subtraction", "division", "multiplication"})
 public class EquationDefinitionConfig {
 
     private int blankMode;
@@ -25,6 +27,7 @@ public class EquationDefinitionConfig {
     public static class Addition extends BasicType {
         private String addendRange;
     }
+
     @Getter
     @Setter
     public static class Subtraction extends BasicType {
@@ -37,11 +40,13 @@ public class EquationDefinitionConfig {
          */
         private String subtrahendRange;
     }
+
     @Getter
     @Setter
     public static class Multiplication extends BasicType {
         private String multiplierRange;
     }
+
     @Getter
     @Setter
     public static class Division extends BasicType {

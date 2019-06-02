@@ -1,6 +1,7 @@
 package org.molecule.tools.mathtraining.service;
 
 import lombok.RequiredArgsConstructor;
+import org.molecule.tools.mathtraining.config.ExerciseConfig;
 import org.molecule.tools.mathtraining.domain.*;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,7 @@ public class ExerciseService {
 
     private final ExerciseRepository exerciseRepository;
     private final QuestionRepository questionRepository;
+    private final ConfigurationRepository configurationRepository;
     private final QuestionService questionService;
 
     public Map start(Integer initialCount) {
@@ -53,16 +55,16 @@ public class ExerciseService {
 
         final List<QuestionVO> questions = createQuestions(penaltyCount);
         saveQuestionsIfNotExist(questions);
-        final WrongnessPO wrongnessPO = new WrongnessPO();
         return questions;
     }
 
     /**
      * //将新增的题目写入数据库
+     *
      * @param questions
      */
     private void saveQuestionsIfNotExist(List<QuestionVO> questions) {
-        Set<String> codes = questions.stream().map(QuestionVO:: getCode).collect(Collectors.toSet());
+        Set<String> codes = questions.stream().map(QuestionVO::getCode).collect(Collectors.toSet());
 
         List<String> existsQuestionCodes = questionRepository
                 .findAllByCodeIn(codes)
@@ -76,7 +78,11 @@ public class ExerciseService {
     }
 
     private List<QuestionVO> createQuestions(Integer count) {
-        return questionService.generateSingleSignWithBatch(count)
+        final ExerciseConfig exerciseConfig = configurationRepository.findFirstByName(null)
+                .map(ConfigurationPO::getProperties)
+                .orElseGet(null);
+
+        return questionService.generateSingleSignWithBatch(count, exerciseConfig)
                 .stream()
                 .map(SingleSignEquationQuestion::toViewObject)
                 .collect(Collectors.toList());
