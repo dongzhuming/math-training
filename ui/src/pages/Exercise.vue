@@ -172,13 +172,13 @@ export default {
       })
     },
     accomplish () {
+      axios.post(`/api/exercise/finish`,
+        qs.stringify({ totalCount: this.current, exerciseId: this.exerciseId }))
       this.$q.dialog({
         title: '全部完成',
         message: `总共完成${this.current}道题目，其中有${this.errorCount}道错题，耗时${this.elapsedTime()}`,
         ok: '知道了'
       }).then(() => {
-        axios.post(`/api/exercise/finish`,
-          qs.stringify({ totalCount: this.current, exerciseId: this.exerciseId }))
         this.exerciseModal = false
       })
     },
